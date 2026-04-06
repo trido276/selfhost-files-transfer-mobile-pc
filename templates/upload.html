@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload to PC</title>
+<style>
+body {
+    font-family: system-ui, sans-serif;
+    padding: 20px;
+    background: #f5f5f5;
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Send file to PC</h2>
+    <input type="file" id="file"><br><br>
+    <button onclick="send()">Upload</button>
+    <p id="status"></p>
+</div>
+
+<script>
+async function send() {
+    const fileInput = document.getElementById("file");
+    if (!fileInput.files.length) return;
+
+    const form = new FormData();
+    form.append("file", fileInput.files[0]);
+
+    document.getElementById("status").innerText = "Uploading...";
+
+    const res = await fetch("/upload?token={{ token }}", {
+        method: "POST",
+        body: form
+    });
+
+    document.getElementById("status").innerText =
+        res.ok ? "✅ Uploaded" : "❌ Failed";
+}
+</script>
+
+</body>
+</html>
