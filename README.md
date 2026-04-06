@@ -33,7 +33,7 @@ All transfers happen **directly over the local network (Wi‑Fi / LAN)**, ensuri
 - **Mobile browser** scans QR and uploads files
 - Files are saved directly on the PC
 
-
+```
 Mobile Browser
       │
       │  HTTP (Local Network)
@@ -41,7 +41,7 @@ Mobile Browser
 PC (FastAPI Server)
       │
       └── Local File System
-
+```
 
 ---
 
@@ -59,13 +59,15 @@ PC (FastAPI Server)
 
 ## 📂 Project Structure
 
-
+```
  mobile_to_pc_share/
 │
 ├── server.py
 ├── shared/
 └── templates/
     └── upload.html
+```
+
 
 ---
 
@@ -84,8 +86,14 @@ PC (FastAPI Server)
 ```bash
 git clone https://github.com/trido276/selfhost-files-transfer-mobile-pc
 cd selfhost-files-transfer-mobile-pc
+python -m pip install --upgrade pip
+python -m pip install fastapi uvicorn qrcode[pil] pillow python-multipart
+python -m uvicorn server:app --host 0.0.0.0 --port 8080
+```
 
-
-
+### Scan QR → upload from phone → file appears in:
+```
+shared/
+```
 
 
