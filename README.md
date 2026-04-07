@@ -47,20 +47,22 @@ QRUpload can be distributed as a **single portable Windows `.exe`**.
 
 ## 🏗 Architecture
 
+```
 Mobile Browser
 │
 │  HTTP (Local Network)
 ▼
 PC (Windows)
 ┌───────────────────────────┐
-│ QRUpload (.py / .exe)      │
-│  ├─ FastAPI Server         │
-│  ├─ QR Generator           │
-│  ├─ Upload UI              │
-│  ├─ System Tray Controller │
+│ QRUpload (.py / .exe)     │
+│  ├─ FastAPI Server        │
+│  ├─ QR Generator          │
+│  ├─ Upload UI             │
+│  ├─ System Tray Controller│
 └───────────────────────────┘
 │
 └── shared/ (Uploaded files)
+```
 
 ---
 
