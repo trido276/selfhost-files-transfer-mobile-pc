@@ -1,99 +1,130 @@
-# 📲 Local Mobile‑to‑PC File Upload via QR Code
+# 📲 QRUpload — Local Mobile‑to‑PC File Upload via QR Code
 
-A **local, self‑hosted file upload system** that allows you to upload files from a **mobile device to a PC** by scanning a **QR code**, without using cloud services, accounts, or the Internet.
+QRUpload is a **local, self-hosted file upload tool** that allows users to upload files from a **mobile device to a PC** by scanning a **QR code**.
 
-All transfers happen **directly over the local network (Wi‑Fi / LAN)**, ensuring **privacy, speed, and full control**.
+The application supports both:
+- **Python-based execution**, and
+- **A standalone Windows `.exe` build** that requires **no Python installation**.
 
----
-
-## ✨ Features
-
-- ✅ **Upload files from mobile → PC only** (one‑way)
-- ✅ **QR‑code based access**
-- ✅ **Local network only** (no Internet required)
-- ✅ **No cloud, no login, no account**
-- ✅ **Multiple file upload**
-- ✅ **Sequential or parallel upload modes**
-- ✅ **Per‑file progress bar**
-- ✅ **Total upload progress**
-- ✅ **Real‑time upload speed display**
-- ✅ **Duplicate file detection**
-  - Prompt user before overwriting existing files
-- ✅ **Debug mode**
-  - Button to open upload page directly with active token
-- ✅ **Mobile‑friendly UI**
-- ✅ **Lightweight & easy to run**
+All transfers occur **locally over Wi‑Fi or LAN**, without cloud services, accounts, or Internet access.
 
 ---
 
-## 🏗 Architecture Overview
-- **PC** runs a FastAPI server
-- Server generates a **temporary upload token**
-- QR code embeds the upload URL + token
-- **Mobile browser** scans QR and uploads files
-- Files are saved directly on the PC
+## ✨ Key Features
 
-```
+- 📱 Mobile → PC file upload (one-way)
+- 🔳 QR code–based access with time-limited tokens
+- 🌐 Local network only (offline friendly)
+- ☁️ No cloud, no login
+- 📂 Multiple file upload
+- 🔁 Sequential or parallel upload modes
+- 📊 Per-file and total progress indicators
+- ⚡ Real-time upload speed
+- 🧠 Duplicate file detection with overwrite confirmation
+- 🧪 Debug mode (open upload page without QR scanning)
+
+---
+
+## 🪟 Windows Executable (.exe) Build
+
+QRUpload can be distributed as a **single portable Windows `.exe`**.
+
+### ✅ Features of the `.exe` version
+
+- No Python or dependency installation required
+- Automatically opens the QR page in the browser
+- Runs as a **system tray application**
+- Continues running in background
+- Tray menu options:
+  - Open QR upload page
+  - Exit application
+
+### Supported Platforms
+- Windows 10
+- Windows 11
+
+---
+
+## 🏗 Architecture
+
 Mobile Browser
-      │
-      │  HTTP (Local Network)
-      ↓
-PC (FastAPI Server)
-      │
-      └── Local File System
+│
+│  HTTP (Local Network)
+▼
+PC (Windows)
+┌───────────────────────────┐
+│ QRUpload (.py / .exe)      │
+│  ├─ FastAPI Server         │
+│  ├─ QR Generator           │
+│  ├─ Upload UI              │
+│  ├─ System Tray Controller │
+└───────────────────────────┘
+│
+└── shared/ (Uploaded files)
+
+---
+
+## ▶️ Usage
+
+### Python Mode
+
+```bash
+python -m uvicorn server:app --host 0.0.0.0 --port 8080
+```
+
+Requires Python and dependencies.
+
+---
+
+### Windows .exe Mode
+
+- Download or copy QRUpload.exe
+- Double-click to start
+- Allow access through Windows Firewall (private network)
+- Browser opens automatically
+- Scan QR from mobile and upload files
+
+No installation required.
+---
+## 📂 File Storage
+### Uploaded files are stored in:
+```
+shared/
 ```
 
 ---
 
 ## 🔐 Security Model
 
-- Each QR code contains a **temporary token**
-- Tokens expire automatically (default: 5 minutes)
-- Upload requests without a valid token are rejected
-- Duplicate file uploads require **explicit confirmation**
-- Server is accessible only on the local network
-
-> ⚠️ This project is designed for **local/private networks**, not public Internet exposure.
+- Time-limited upload tokens (default: 5 minutes)
+- Token validation for all uploads
+- Duplicate file overwrite confirmation
+- Designed for trusted local environments
 
 ---
 
-## 📂 Project Structure
+## 🧰 Technology Stack
 
-```
- mobile_to_pc_share/
-│
-├── server.py
-├── shared/
-└── templates/
-    └── upload.html
-```
-
+- Backend: FastAPI, Uvicorn
+- Frontend: HTML, CSS, Vanilla JavaScript
+- QR code: qrcode + Pillow
+- System Tray: pystray
+- Packaging: PyInstaller
 
 ---
 
-## 🧰 Requirements
+## ⚠️ Known Limitations
 
-- Python **3.8+**
-- Desktop / Laptop running Windows, macOS, or Linux
-- Mobile device with a modern browser (Chrome, Safari, Firefox)
+- Upload pause/resume restarts the file
+- Large files depend on available RAM and network speed
+- Not designed for public Internet exposure
 
 ---
 
-## 📦 Installation
+## 📄 License
+MIT License
 
-### 1️⃣ Clone or copy the project
+---
 
-```bash
-git clone https://github.com/trido276/selfhost-files-transfer-mobile-pc
-cd selfhost-files-transfer-mobile-pc
-python -m pip install --upgrade pip
-python -m pip install fastapi uvicorn qrcode[pil] pillow python-multipart
-python -m uvicorn server:app --host 0.0.0.0 --port 8080
-```
-
-### Scan QR → upload from phone → file appears in:
-```
-shared/
-```
-
-
+## ✅ Status
+QRUpload is considered stable for local file transfer use cases and serves as a foundation for future enhancements.

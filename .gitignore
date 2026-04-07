@@ -1,2 +1,10 @@
 __pycache__
-shared
+dist
+build
+qr.png
+
+# Ignore everything inside shared/
+shared/*
+
+# But keep the shared directory itself
+!shared/.gitkeep
